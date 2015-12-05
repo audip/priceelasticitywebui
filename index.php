@@ -7,6 +7,7 @@ try{
     $uri = "mongodb://MongoLab-u:dA1Sglez6GlWFQ9MtLNGCg3Xp0X3WDymPhxOEF8IL_U-@ds056288.mongolab.com:56288";
     $db = new Mongo($uri);
     $registrations = $db->selectCollection('MongoLab-u', 'users');
+    echo "Hello, World!";
 } catch (Exception $e){
     echo 'Caught exception: ',  $e->getMessage(), "<br />";
 }
