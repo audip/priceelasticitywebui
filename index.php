@@ -2,7 +2,7 @@
 <html lang="en">
 <?php
 ini_set("display_errors", "On");
-php_info();
+phpinfo();
 
 /*try{
     $uri = "mongodb://MongoLab-u:dA1Sglez6GlWFQ9MtLNGCg3Xp0X3WDymPhxOEF8IL_U-@ds056288.mongolab.com:56288";
