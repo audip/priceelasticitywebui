@@ -28,7 +28,7 @@
     <script>
         NProgress.start();
     </script>
-    
+
     <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
         <![endif]-->
@@ -74,7 +74,7 @@
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 
-                        <div class="menu_section" >
+                        <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
                                 <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
@@ -399,7 +399,7 @@
                                             <option id="option7">Bad Science</option>
                                             <option id="option8">The Science of Evil</option>
                                             <input type="submit" value="Submit" id="submit_book" />
-                                        </select> 
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -410,7 +410,7 @@
                                     <div id="canvas_dahs" class="demo-placeholder" style="width: 100%; height:270px;"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -418,16 +418,16 @@
                 </div>
                 <br />
 
-                
 
 
-                
+
+
                 <!-- footer content -->
 
-                <footer >
+                <footer>
                     <div class="footer;text-align:center">
                         <p class="pull-right">Design style by <i>KimLabs</i> |
-                             </i>Made by <b>Aditya Purandare, Swapnil Phulse, Vijayalkshmi Rana and Vikramsinh Jadhav</b>
+                            </i>Made by <b>Aditya Purandare, Swapnil Phulse, Vijayalkshmi Rana and Vikramsinh Jadhav</b>
                         </p>
                     </div>
                     <div class="clearfix"></div>
@@ -477,159 +477,260 @@
     <script type="text/javascript" src="js/flot/curvedLines.js"></script>
     <script type="text/javascript" src="js/flot/jquery.flot.resize.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // [17, 74, 6, 39, 20, 85, 7]
             //[82, 23, 66, 9, 99, 6, 2]
-            var file='output.txt';
-            var datamonth,bookname, current_price, current_qty, p_ideal, GR, current_sales, forecast_sales, year, month,cs ,fs, selected_value;  
-            $.get(file,function(txt){
+            var file = 'output.txt';
+            var datamonth, bookname, current_price, current_qty, p_ideal, GR, current_sales, forecast_sales, year, month, cs, fs, selected_value;
+            $.get(file, function(txt) {
                 //n lines read
                 var lines = txt.split('\n');
+                selected_value=$('select option:selected').text();
+                    var dataArr1 = [
+                        []
+                    ];
+                    var dataArr2 = [
+                        []
+                    ];
+                    var fs_sum = 0;
+                    var cs_sum = 0;
+                    for (var loop_var = 0, len = lines.length; loop_var < len; ++loop_var) {
+                        //line of text
 
-                $('#submit_book').click(function(){
-                    selected_value=$('select option:selected').text();
+                        GR = (Math.random() * (1.30 - 1.10) + 1.10).toFixed(2);
+
+                        var values = lines[loop_var].split('\t');
+                        //separated by tab, picked latter part
+                        var value = values[1];
+                        var words = value.split('_');
+                        for (var itr = 0, l = words.length; itr < l; ++itr) {
+                            datamonth = words[0];
+                            year = datamonth.substring(0, 4);
+                            bookname = words[1];
+                            if (datamonth % 2 == 1 && year > '2013' && bookname == selected_value) {
+                                month = datamonth.substring(4, 6);
+                                current_price = words[2];
+                                current_qty = words[3];
+                                p_ideal = words[15];
+                                current_sales = current_price * current_qty;
+                                cs = current_sales.toFixed(0);
+                                forecast_sales = current_sales * GR;
+                                fs = forecast_sales.toFixed(0);
+                                //console.log(year+" "+month+" "+cs+" "+ fs);
+                                dataArr1.push([gd(year, month, 1), cs]);
+                                dataArr2.push([gd(year, month, 1), fs]);
+                                fs_sum = fs_sum + forecast_sales;
+                                cs_sum = cs_sum + current_sales;
+                            }
+                        }
+
+                        //console.log("Hello1");                     
+                        for (var a = 0, l = dataArr2.length; a < l; a++) {
+                            //console.log("Hello3");
+                            //console.log("Array1:"+dataArr1[a][1]);
+                            //console.log("Array2:"+dataArr2[a][1]);
+                        }
+                        if (loop_var == lines.length - 2) {
+                            //console.log("Hello3");
+                            /*var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 2, 2), 74], [gd(2012, 3, 3), 6], [gd(2012, 4, 4), 39], [gd(2012, 5, 5), 20], [gd(2012, 6, 6), 85]];
+
+                            var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 2, 2), 23], [gd(2012, 3, 3), 66], [gd(2012, 4, 4), 9], [gd(2012, 5, 5), 119], [gd(2012, 6, 6), 6]];*/
+                            fs = fs_sum.toFixed(0);
+                            var comma = fs.length - 3;
+                            var fs_str1 = fs.substring(0, comma);
+                            var fs_str2 = fs.substring(comma, fs.length);
+                            var fs_str = fs_str1 + "," + fs_str2;
+                            cs = cs_sum.toFixed(0);
+                            var comma2 = cs.length - 3;
+                            var cs_str11 = cs.substring(0, comma2);
+                            var cs_str22 = cs.substring(comma2, cs.length);
+                            var cs_str = cs_str11 + "," + cs_str22;
+                            $("#sales_data").html(fs_str);
+                            $("#regular_data").html(cs_str);
+                            $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
+                                dataArr1, dataArr2
+                            ], {
+                                series: {
+                                    lines: {
+                                        show: false,
+                                        fill: true
+                                    },
+                                    splines: {
+                                        show: true,
+                                        tension: 0.4,
+                                        lineWidth: 1,
+                                        fill: 0.4
+                                    },
+                                    points: {
+                                        radius: 0,
+                                        show: true
+                                    },
+                                    shadowSize: 2
+                                },
+                                grid: {
+                                    verticalLines: true,
+                                    hoverable: true,
+                                    clickable: true,
+                                    tickColor: "#d5d5d5",
+                                    borderWidth: 1,
+                                    color: '#fff'
+                                },
+                                colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
+                                xaxis: {
+                                    tickColor: "rgba(51, 51, 51, 0.06)",
+                                    mode: "time",
+                                    tickSize: [2, "month"],
+                                    //tickLength: 10,
+                                    axisLabel: "Date",
+                                    axisLabelUseCanvas: true,
+                                    axisLabelFontSizePixels: 12,
+                                    axisLabelFontFamily: 'Verdana, Arial',
+                                    axisLabelPadding: 10
+                                        //mode: "time", timeformat: "%m/%d/%y", minTickSize: [1, "day"]
+                                },
+                                yaxis: {
+                                    ticks: 8,
+                                    tickColor: "rgba(51, 51, 51, 0.06)",
+                                },
+                                tooltip: false
+                            });
+                            //console.log("Program finished!");
+
+                            function gd(year, month, day) {
+                                return new Date(year, month - 1, day).getTime();
+                            }
+                        }
+                    }
+                $('#submit_book').click(function() {
+                    selected_value = $('select option:selected').text();
                     //alert(selected_value);
-                    var dataArr1 = [[]];
-                    var dataArr2 = [[]];
-                    var fs_sum=0;
-                    var cs_sum=0;
-                    for (var loop_var=0,len=lines.length;loop_var<len;++loop_var){
-                    //line of text
-                    
-                    GR=(Math.random() * (1.30 - 1.10) + 1.10).toFixed(2);
+                    var dataArr1 = [
+                        []
+                    ];
+                    var dataArr2 = [
+                        []
+                    ];
+                    var fs_sum = 0;
+                    var cs_sum = 0;
+                    for (var loop_var = 0, len = lines.length; loop_var < len; ++loop_var) {
+                        //line of text
 
-                    var values = lines[loop_var].split('\t');
-                    //separated by tab, picked latter part
-                    var value = values[1];
-                    var words = value.split('_');
-                    for(var itr = 0, l=words.length; itr < l; ++itr){
-                        datamonth= words[0];
-                        year = datamonth.substring(0, 4);
-                        bookname= words[1];
-                        if(datamonth%2==1 && year >'2013' && bookname==selected_value){
-                            month = datamonth.substring(4, 6);
-                            current_price=words[2];
-                            current_qty=words[3];
-                            p_ideal=words[15];
-                            current_sales=current_price*current_qty;
-                            cs = current_sales.toFixed(0);
-                            forecast_sales=current_sales*GR;
-                            fs= forecast_sales.toFixed(0);
-                            //console.log(year+" "+month+" "+cs+" "+ fs);
-                            dataArr1.push([gd(year, month, 1), cs]);  
-                            dataArr2.push([gd(year, month, 1), fs]);
-                            fs_sum = fs_sum + forecast_sales;
-                            cs_sum = cs_sum + current_sales;
+                        GR = (Math.random() * (1.30 - 1.10) + 1.10).toFixed(2);
+
+                        var values = lines[loop_var].split('\t');
+                        //separated by tab, picked latter part
+                        var value = values[1];
+                        var words = value.split('_');
+                        for (var itr = 0, l = words.length; itr < l; ++itr) {
+                            datamonth = words[0];
+                            year = datamonth.substring(0, 4);
+                            bookname = words[1];
+                            if (datamonth % 2 == 1 && year > '2013' && bookname == selected_value) {
+                                month = datamonth.substring(4, 6);
+                                current_price = words[2];
+                                current_qty = words[3];
+                                p_ideal = words[15];
+                                current_sales = current_price * current_qty;
+                                cs = current_sales.toFixed(0);
+                                forecast_sales = current_sales * GR;
+                                fs = forecast_sales.toFixed(0);
+                                //console.log(year+" "+month+" "+cs+" "+ fs);
+                                dataArr1.push([gd(year, month, 1), cs]);
+                                dataArr2.push([gd(year, month, 1), fs]);
+                                fs_sum = fs_sum + forecast_sales;
+                                cs_sum = cs_sum + current_sales;
+                            }
                         }
-                    }    
-                     
-                    //console.log("Hello1");                     
-                    for(var a=0, l=dataArr2.length; a<l;a++ ){
-                        //console.log("Hello3");
-                        //console.log("Array1:"+dataArr1[a][1]);
-                        //console.log("Array2:"+dataArr2[a][1]);
-                    }
-                    if(loop_var==lines.length-2)
-                    {
-                        //console.log("Hello3");
-                        /*var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 2, 2), 74], [gd(2012, 3, 3), 6], [gd(2012, 4, 4), 39], [gd(2012, 5, 5), 20], [gd(2012, 6, 6), 85]];
 
-                        var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 2, 2), 23], [gd(2012, 3, 3), 66], [gd(2012, 4, 4), 9], [gd(2012, 5, 5), 119], [gd(2012, 6, 6), 6]];*/
-                        fs=fs_sum.toFixed(0);
-                        var comma= fs.length-3;
-                        var fs_str1=fs.substring(0, comma);
-                        var fs_str2=fs.substring(comma, fs.length);
-                        var fs_str=fs_str1+","+fs_str2;
-                        cs=cs_sum.toFixed(0);
-                        var comma2= cs.length-3;
-                        var cs_str11=cs.substring(0, comma2);
-                        var cs_str22=cs.substring(comma2, cs.length);
-                        var cs_str=cs_str11+","+cs_str22;
-                        $("#sales_data").html(fs_str);
-                        $("#regular_data").html(cs_str);
-                        $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
-                            dataArr1, dataArr2
-                        ], {
-                            series: {
-                                lines: {
-                                    show: false,
-                                    fill: true
-                                },
-                                splines: {
-                                    show: true,
-                                    tension: 0.4,
-                                    lineWidth: 1,
-                                    fill: 0.4
-                                },
-                                points: {
-                                    radius: 0,
-                                    show: true
-                                },
-                                shadowSize: 2
-                            },
-                            grid: {
-                                verticalLines: true,
-                                hoverable: true,
-                                clickable: true,
-                                tickColor: "#d5d5d5",
-                                borderWidth: 1,
-                                color: '#fff'
-                            },
-                            colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
-                            xaxis: {
-                                tickColor: "rgba(51, 51, 51, 0.06)",
-                                mode: "time",
-                                tickSize: [2, "month"],
-                                //tickLength: 10,
-                                axisLabel: "Date",
-                                axisLabelUseCanvas: true,
-                                axisLabelFontSizePixels: 12,
-                                axisLabelFontFamily: 'Verdana, Arial',
-                                axisLabelPadding: 10
-                                    //mode: "time", timeformat: "%m/%d/%y", minTickSize: [1, "day"]
-                            },
-                            yaxis: {
-                                ticks: 8,
-                                tickColor: "rgba(51, 51, 51, 0.06)",
-                            },
-                            tooltip: false
-                        });
-                        //console.log("Program finished!");
+                        //console.log("Hello1");                     
+                        for (var a = 0, l = dataArr2.length; a < l; a++) {
+                            //console.log("Hello3");
+                            //console.log("Array1:"+dataArr1[a][1]);
+                            //console.log("Array2:"+dataArr2[a][1]);
+                        }
+                        if (loop_var == lines.length - 2) {
+                            //console.log("Hello3");
+                            /*var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 2, 2), 74], [gd(2012, 3, 3), 6], [gd(2012, 4, 4), 39], [gd(2012, 5, 5), 20], [gd(2012, 6, 6), 85]];
 
-                        function gd(year, month, day) {
-                            return new Date(year, month - 1, day).getTime();
+                            var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 2, 2), 23], [gd(2012, 3, 3), 66], [gd(2012, 4, 4), 9], [gd(2012, 5, 5), 119], [gd(2012, 6, 6), 6]];*/
+                            fs = fs_sum.toFixed(0);
+                            var comma = fs.length - 3;
+                            var fs_str1 = fs.substring(0, comma);
+                            var fs_str2 = fs.substring(comma, fs.length);
+                            var fs_str = fs_str1 + "," + fs_str2;
+                            cs = cs_sum.toFixed(0);
+                            var comma2 = cs.length - 3;
+                            var cs_str11 = cs.substring(0, comma2);
+                            var cs_str22 = cs.substring(comma2, cs.length);
+                            var cs_str = cs_str11 + "," + cs_str22;
+                            $("#sales_data").html(fs_str);
+                            $("#regular_data").html(cs_str);
+                            $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
+                                dataArr1, dataArr2
+                            ], {
+                                series: {
+                                    lines: {
+                                        show: false,
+                                        fill: true
+                                    },
+                                    splines: {
+                                        show: true,
+                                        tension: 0.4,
+                                        lineWidth: 1,
+                                        fill: 0.4
+                                    },
+                                    points: {
+                                        radius: 0,
+                                        show: true
+                                    },
+                                    shadowSize: 2
+                                },
+                                grid: {
+                                    verticalLines: true,
+                                    hoverable: true,
+                                    clickable: true,
+                                    tickColor: "#d5d5d5",
+                                    borderWidth: 1,
+                                    color: '#fff'
+                                },
+                                colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
+                                xaxis: {
+                                    tickColor: "rgba(51, 51, 51, 0.06)",
+                                    mode: "time",
+                                    tickSize: [2, "month"],
+                                    //tickLength: 10,
+                                    axisLabel: "Date",
+                                    axisLabelUseCanvas: true,
+                                    axisLabelFontSizePixels: 12,
+                                    axisLabelFontFamily: 'Verdana, Arial',
+                                    axisLabelPadding: 10
+                                        //mode: "time", timeformat: "%m/%d/%y", minTickSize: [1, "day"]
+                                },
+                                yaxis: {
+                                    ticks: 8,
+                                    tickColor: "rgba(51, 51, 51, 0.06)",
+                                },
+                                tooltip: false
+                            });
+                            //console.log("Program finished!");
+
+                            function gd(year, month, day) {
+                                return new Date(year, month - 1, day).getTime();
+                            }
                         }
                     }
-                }
+
                 });
             });
             //console.log(year+" "+month+" "+cs+" "+ fs);
         });
     </script>
 
-   
-    
+
+
+
 
     
-    <!-- datepicker -->
-    <script type="text/javascript">
-        
-        $(document).ready(function () {
-
-            $('#reportrange span').html("Aditya");
-            $('#reportrange').daterangepicker(optionSet1, cb);
-            
-            $('#options1').click(function () {
-                $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
-            });
-            $('#options2').click(function () {
-                $('#reportrange').data('daterangepicker').setOptions(optionSet2, cb);
-            });
-            $('#destroy').click(function () {
-                $('#reportrange').data('daterangepicker').remove();
-            });
-        });
-    </script>
     <script>
         NProgress.done();
     </script>
