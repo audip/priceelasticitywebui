@@ -390,7 +390,7 @@
                                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer;padding: 5px 10px; border: 1px solid #ccc">
                                         <i class="fa fa-book"></i>
                                         <select id="bookselection" style="background: #fff; cursor: pointer; margin:0px 20px; padding: 5px 10px; border: 1px solid #ccc">
-                                            <option id="option1">The Science of a Connected Age</option>
+                                            <option id="option1" selected="selected">Six Degrees: The Science of a Connected Age</option>
                                             <option id="option2">Why We Buy</option>
                                             <option id="option3">Pasteurs Quadrant</option>
                                             <option id="option4">Science In Public</option>
@@ -398,7 +398,7 @@
                                             <option id="option6">The Age Of Science</option>
                                             <option id="option7">Bad Science</option>
                                             <option id="option8">The Science of Evil</option>
-                                            
+                                            <input type="submit" value="Submit" id="submit_book" />
                                         </select> 
                                     </div>
                                 </div>
@@ -481,19 +481,19 @@
             // [17, 74, 6, 39, 20, 85, 7]
             //[82, 23, 66, 9, 99, 6, 2]
             var file='output.txt';
-            var datamonth,bookname, current_price, current_qty, p_ideal, GR, current_sales, forecast_sales, year, month,cs ,fs;  
+            var datamonth,bookname, current_price, current_qty, p_ideal, GR, current_sales, forecast_sales, year, month,cs ,fs, selected_value;  
             $.get(file,function(txt){
                 //n lines read
                 var lines = txt.split('\n');
 
-                var datapoint = [];
-                var x=0;
-                var dataArr1 = [[]];
-                var dataArr2 = [[]];
-                var fs_sum=0;
-                var cs_sum=0;
-
-                for (var loop_var=0,len=lines.length;loop_var<len;++loop_var){
+                $('#submit_book').click(function(){
+                    selected_value=$('select option:selected').text();
+                    //alert(selected_value);
+                    var dataArr1 = [[]];
+                    var dataArr2 = [[]];
+                    var fs_sum=0;
+                    var cs_sum=0;
+                    for (var loop_var=0,len=lines.length;loop_var<len;++loop_var){
                     //line of text
                     
                     GR=(Math.random() * (1.30 - 1.10) + 1.10).toFixed(2);
@@ -504,10 +504,10 @@
                     var words = value.split('_');
                     for(var itr = 0, l=words.length; itr < l; ++itr){
                         datamonth= words[0];
-                        if(datamonth%2==1){
-                            year = datamonth.substring(0, 4);
+                        year = datamonth.substring(0, 4);
+                        bookname= words[1];
+                        if(datamonth%2==1 && year >'2013' && bookname==selected_value){
                             month = datamonth.substring(4, 6);
-                            bookname= words[1];
                             current_price=words[2];
                             current_qty=words[3];
                             p_ideal=words[15];
@@ -594,13 +594,14 @@
                             },
                             tooltip: false
                         });
-                        console.log("Program finished!");
+                        //console.log("Program finished!");
 
                         function gd(year, month, day) {
                             return new Date(year, month - 1, day).getTime();
                         }
                     }
                 }
+                });
             });
             //console.log(year+" "+month+" "+cs+" "+ fs);
         });
