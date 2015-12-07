@@ -362,7 +362,7 @@
                         <div class="left"></div>
                         <div class="right">
                             <span class="count_top"><i class="fa fa-line-chart"></i> Forecasted Sales</span>
-                            <div class="count green">122,315</div>
+                            <div class="count green" id="sales_data">122,315</div>
                             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Year</span>
                         </div>
                     </div>
@@ -370,7 +370,7 @@
                         <div class="left"></div>
                         <div class="right">
                             <span class="count_top"><i class="fa fa-credit-card"></i> Regular Sales</span>
-                            <div class="count red">87,325</div>
+                            <div class="count red" id="regular_data">87,325</div>
                             <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>30% </i> From last Year</span>
                         </div>
                     </div>
@@ -387,9 +387,19 @@
                                     <h3>Sales Forecast <small>Book Revenue </small></h3>
                                 </div>
                                 <div class="col-md-6">
-                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer;padding: 5px 10px; border: 1px solid #ccc">
+                                        <i class="fa fa-book"></i>
+                                        <select id="bookselection" style="background: #fff; cursor: pointer; margin:0px 20px; padding: 5px 10px; border: 1px solid #ccc">
+                                            <option id="option1">The Science of a Connected Age</option>
+                                            <option id="option2">Why We Buy</option>
+                                            <option id="option3">Pasteurs Quadrant</option>
+                                            <option id="option4">Science In Public</option>
+                                            <option id="option5">The Where, the Why, and the How</option>
+                                            <option id="option6">The Age Of Science</option>
+                                            <option id="option7">Bad Science</option>
+                                            <option id="option8">The Science of Evil</option>
+                                            
+                                        </select> 
                                     </div>
                                 </div>
                             </div>
@@ -480,8 +490,12 @@
                 var x=0;
                 var dataArr1 = [[]];
                 var dataArr2 = [[]];
+                var fs_sum=0;
+                var cs_sum=0;
+
                 for (var loop_var=0,len=lines.length;loop_var<len;++loop_var){
                     //line of text
+                    
                     GR=(Math.random() * (1.30 - 1.10) + 1.10).toFixed(2);
 
                     var values = lines[loop_var].split('\t');
@@ -501,24 +515,38 @@
                             cs = current_sales.toFixed(0);
                             forecast_sales=current_sales*GR;
                             fs= forecast_sales.toFixed(0);
-                            console.log(year+" "+month+" "+cs+" "+ fs);
+                            //console.log(year+" "+month+" "+cs+" "+ fs);
                             dataArr1.push([gd(year, month, 1), cs]);  
                             dataArr2.push([gd(year, month, 1), fs]);
+                            fs_sum = fs_sum + forecast_sales;
+                            cs_sum = cs_sum + current_sales;
                         }
                     }    
                      
-                    console.log("Hello1");                     
+                    //console.log("Hello1");                     
                     for(var a=0, l=dataArr2.length; a<l;a++ ){
                         //console.log("Hello3");
-                        console.log("Array1:"+dataArr1[a][1]);
-                        console.log("Array2:"+dataArr2[a][1]);
+                        //console.log("Array1:"+dataArr1[a][1]);
+                        //console.log("Array2:"+dataArr2[a][1]);
                     }
                     if(loop_var==lines.length-2)
                     {
-                        console.log("Hello3");
-                        var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 2, 2), 74], [gd(2012, 3, 3), 6], [gd(2012, 4, 4), 39], [gd(2012, 5, 5), 20], [gd(2012, 6, 6), 85]];
+                        //console.log("Hello3");
+                        /*var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 2, 2), 74], [gd(2012, 3, 3), 6], [gd(2012, 4, 4), 39], [gd(2012, 5, 5), 20], [gd(2012, 6, 6), 85]];
 
-                        var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 2, 2), 23], [gd(2012, 3, 3), 66], [gd(2012, 4, 4), 9], [gd(2012, 5, 5), 119], [gd(2012, 6, 6), 6]];
+                        var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 2, 2), 23], [gd(2012, 3, 3), 66], [gd(2012, 4, 4), 9], [gd(2012, 5, 5), 119], [gd(2012, 6, 6), 6]];*/
+                        fs=fs_sum.toFixed(0);
+                        var comma= fs.length-3;
+                        var fs_str1=fs.substring(0, comma);
+                        var fs_str2=fs.substring(comma, fs.length);
+                        var fs_str=fs_str1+","+fs_str2;
+                        cs=cs_sum.toFixed(0);
+                        var comma2= cs.length-3;
+                        var cs_str11=cs.substring(0, comma2);
+                        var cs_str22=cs.substring(comma2, cs.length);
+                        var cs_str=cs_str11+","+cs_str22;
+                        $("#sales_data").html(fs_str);
+                        $("#regular_data").html(cs_str);
                         $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
                             dataArr1, dataArr2
                         ], {
@@ -584,66 +612,12 @@
     
     <!-- datepicker -->
     <script type="text/javascript">
+        
         $(document).ready(function () {
 
-            var cb = function (start, end, label) {
-                console.log(start.toISOString(), end.toISOString(), label);
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                //alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + ", label = " + label + "]");
-            }
-
-            var optionSet1 = {
-                startDate: moment().subtract(29, 'days'),
-                endDate: moment(),
-                minDate: '01/01/2012',
-                maxDate: '12/31/2015',
-                dateLimit: {
-                    days: 60
-                },
-                showDropdowns: true,
-                showWeekNumbers: true,
-                timePicker: false,
-                timePickerIncrement: 1,
-                timePicker12Hour: true,
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                },
-                opens: 'left',
-                buttonClasses: ['btn btn-default'],
-                applyClass: 'btn-small btn-primary',
-                cancelClass: 'btn-small',
-                format: 'MM/DD/YYYY',
-                separator: ' to ',
-                locale: {
-                    applyLabel: 'Submit',
-                    cancelLabel: 'Clear',
-                    fromLabel: 'From',
-                    toLabel: 'To',
-                    customRangeLabel: 'Custom',
-                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    firstDay: 1
-                }
-            };
-            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+            $('#reportrange span').html("Aditya");
             $('#reportrange').daterangepicker(optionSet1, cb);
-            $('#reportrange').on('show.daterangepicker', function () {
-                console.log("show event fired");
-            });
-            $('#reportrange').on('hide.daterangepicker', function () {
-                console.log("hide event fired");
-            });
-            $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-                console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
-            });
-            $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
-                console.log("cancel event fired");
-            });
+            
             $('#options1').click(function () {
                 $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
             });
