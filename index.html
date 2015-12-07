@@ -220,7 +220,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">John Doe
+                                    <img src="images/img.jpg" alt="">John Snow
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -331,7 +331,7 @@
                         <div class="right">
                             <span class="count_top"><i class="fa fa-user"></i> Print Books</span>
                             <div class="count green">7,517</div>
-                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>4%</i>From last Week</span>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>4%</i>From last Month</span>
                         </div>
                     </div>
                     <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
@@ -339,7 +339,7 @@
                         <div class="right">
                             <span class="count_top"><i class="fa fa-clock-o"></i> eBook Downloads</span>
                             <div class="count green">63,500</div>
-                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>23% </i> From last Week</span>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>23% </i> From last Month</span>
                         </div>
                     </div>
                     <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
@@ -347,7 +347,7 @@
                         <div class="right">
                             <span class="count_top"><i class="fa fa-tags"></i> Promotions</span>
                             <div class="count green">2,500</div>
-                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Month</span>
                         </div>
                     </div>
                     <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
@@ -355,23 +355,23 @@
                         <div class="right">
                             <span class="count_top"><i class="fa fa-thumbs-up"></i> Facebook conversions</span>
                             <div class="count red">4,567</div>
-                            <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+                            <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Month</span>
                         </div>
                     </div>
                     <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
                         <div class="left"></div>
                         <div class="right">
-                            <span class="count_top"><i class="fa fa-line-chart"></i> Advertising Campaign</span>
-                            <div class="count green">2,315</div>
-                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+                            <span class="count_top"><i class="fa fa-line-chart"></i> Forecasted Sales</span>
+                            <div class="count green">122,315</div>
+                            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Year</span>
                         </div>
                     </div>
                     <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
                         <div class="left"></div>
                         <div class="right">
-                            <span class="count_top"><i class="fa fa-credit-card"></i> Refunds</span>
-                            <div class="count red">7,325</div>
-                            <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>30% </i> From last Week</span>
+                            <span class="count_top"><i class="fa fa-credit-card"></i> Regular Sales</span>
+                            <div class="count red">87,325</div>
+                            <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>30% </i> From last Year</span>
                         </div>
                     </div>
 
@@ -470,9 +470,18 @@
         $(document).ready(function () {
             // [17, 74, 6, 39, 20, 85, 7]
             //[82, 23, 66, 9, 99, 6, 2]
-            var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 1, 2), 74], [gd(2012, 1, 3), 6], [gd(2012, 1, 4), 39], [gd(2012, 1, 5), 20], [gd(2012, 1, 6), 85],  [gd(2012, 1, 7), 7]];
+            var file='output.txt';
+            $.get(file,function(txt){
+                var lines = txt.split('\n');
+                for (var i = 0, len = lines.length; i < len; i++) {
+                    
+                    //console.log(lines[i]);
+                }
+            }); 
 
-            var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 1, 2), 23], [gd(2012, 1, 3), 66], [gd(2012, 1, 4), 9], [gd(2012, 1, 5), 119], [gd(2012, 1, 6), 6],  [gd(2012, 1, 7), 7]];
+            var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 1, 2), 74], [gd(2012, 1, 3), 6], [gd(2012, 1, 4), 39], [gd(2012, 1, 5), 20], [gd(2012, 1, 6), 85]];
+
+            var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 1, 2), 23], [gd(2012, 1, 3), 66], [gd(2012, 1, 4), 9], [gd(2012, 1, 5), 119], [gd(2012, 1, 6), 6]];
             $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
                 data1, data2
             ], {
