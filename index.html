@@ -471,14 +471,37 @@
             // [17, 74, 6, 39, 20, 85, 7]
             //[82, 23, 66, 9, 99, 6, 2]
             var file='output.txt';
+            var datamonth,bookname, current_price, current_qty, p_ideal, GR, current_sales, forecast_sales, year, month,cs ,fs;  
             $.get(file,function(txt){
+                //n lines read
                 var lines = txt.split('\n');
-                for (var i = 0, len = lines.length; i < len; i++) {
-                    
-                    //console.log(lines[i]);
+                GR=(Math.random() * (1.50 - 1.20) + 1.20).toFixed(2);
+
+                for (var loop_var=0,len=lines.length;loop_var<len;++loop_var){
+                    //line of text
+                    var values = lines[loop_var].split('\t');
+                    //separated by tab, picked latter part
+                    var value = values[1];
+                    var words = value.split('_');
+                    for(var itr = 0, l=words.length; itr < l; ++itr){
+                        datamonth= words[0];
+                        if(datamonth%2==1){
+                            year = datamonth.substring(0, 4);
+                            month = datamonth.substring(4, 6);
+                            bookname= words[1];
+                            current_price=words[2];
+                            current_qty=words[3];
+                            p_ideal=words[15];
+                            current_sales=current_price*current_qty;
+                            cs = current_sales.toFixed(0);
+                            forecast_sales=current_sales*GR;
+                            fs= forecast_sales.toFixed(0);
+                            console.log(year+" "+month+" "+cs+" "+ fs);
+                        }
+                    }
                 }
             }); 
-
+            //console.log(datamonth+" "+bookname+" "+current_price+" "+current_qty+" "+p_ideal+" "+GR);
             var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 1, 2), 74], [gd(2012, 1, 3), 6], [gd(2012, 1, 4), 39], [gd(2012, 1, 5), 20], [gd(2012, 1, 6), 85]];
 
             var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 1, 2), 23], [gd(2012, 1, 3), 66], [gd(2012, 1, 4), 9], [gd(2012, 1, 5), 119], [gd(2012, 1, 6), 6]];
