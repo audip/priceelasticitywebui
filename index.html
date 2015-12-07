@@ -98,33 +98,10 @@
                             <h3>Live On</h3>
                             <ul class="nav side-menu">
                                 <li><a><i class="fa fa-download "></i> Downloads <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="e_commerce.html">E-commerce</a>
-                                        </li>
-                                        <li><a href="projects.html">Projects</a>
-                                        </li>
-                                        <li><a href="project_detail.html">Project Detail</a>
-                                        </li>
-                                        <li><a href="contacts.html">Contacts</a>
-                                        </li>
-                                        <li><a href="profile.html">Profile</a>
-                                        </li>
-                                    </ul>
+                                    
                                 </li>
                                 <li><a><i class="fa fa-cubes"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="page_404.html">404 Error</a>
-                                        </li>
-                                        <li><a href="page_500.html">500 Error</a>
-                                        </li>
-                                        <li><a href="plain_page.html">Plain Page</a>
-                                        </li>
-                                        <li><a href="login.html">Login Page</a>
-                                        </li>
-                                        <li><a href="pricing_tables.html">Pricing Tables</a>
-                                        </li>
-
-                                    </ul>
+                                    
                                 </li>
                                 <li><a><i class="fa fa-laptop"></i> Site Launch <span class="label label-success pull-right">Coming Soon</span></a>
                                 </li>
@@ -197,11 +174,11 @@
                                         <img src="images/img.jpg" alt="Profile Image" />
                                     </span>
                                             <span>
-                                        <span>John Snow</span>
-                                            <span class="time">3 mins ago</span>
+                                        <span>Castle Black</span>
+                                            <span class="time">15 mins ago</span>
                                             </span>
                                             <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where... 
+                                        You are the true leader of the Night's Watch 
                                     </span>
                                         </a>
                                     </li>
@@ -211,11 +188,11 @@
                                         <img src="images/img.jpg" alt="Profile Image" />
                                     </span>
                                             <span>
-                                        <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
+                                        <span>Sansa Stark</span>
+                                            <span class="time">30 mins ago</span>
                                             </span>
                                             <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where... 
+                                        Purplle Wedding was most fun of all seasons... 
                                     </span>
                                         </a>
                                     </li>
@@ -225,11 +202,11 @@
                                         <img src="images/img.jpg" alt="Profile Image" />
                                     </span>
                                             <span>
-                                        <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
+                                        <span>George R.R. Martin</span>
+                                            <span class="time">1 hour ago</span>
                                             </span>
                                             <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where... 
+                                        Season 6 is the most anticipated and puzzling saga of all time... 
                                     </span>
                                         </a>
                                     </li>
@@ -239,11 +216,11 @@
                                         <img src="images/img.jpg" alt="Profile Image" />
                                     </span>
                                             <span>
-                                        <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
+                                        <span>Arya Stark</span>
+                                            <span class="time">6 hours ago</span>
                                             </span>
                                             <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where... 
+                                        I am sending this message from a world far far away... 
                                     </span>
                                         </a>
                                     </li>
@@ -361,17 +338,13 @@
                     </div>
 
                 </div>
-                <br />
-
-
-
-
+                <br/>
 
                 <!-- footer content -->
 
-                <footer>
-                    <div class="footer;text-align:center">
-                        <p class="pull-right">Design style by <i>KimLabs</i> |
+                <footer class="panel-footer" style="background-color:white;">
+                    <div  style="background-color:white;">
+                        <p class="" style="text-align:center">Design style by <i>KimLabs</i> |
                             </i>Made by <b>Aditya Purandare, Swapnil Phulse, Vijaylakshmi Rana and Vikramsinh Jadhav</b>
                         </p>
                     </div>
@@ -404,9 +377,6 @@
     <script src="js/nicescroll/jquery.nicescroll.min.js"></script>
     <!-- icheck -->
     <script src="js/icheck/icheck.min.js"></script>
-    <!-- daterangepicker -->
-    <script type="text/javascript" src="js/moment.min.js"></script>
-    <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
 
     <script src="js/custom.js"></script>
 
@@ -423,14 +393,14 @@
     <script type="text/javascript" src="js/flot/jquery.flot.resize.js"></script>
     <script>
         $(document).ready(function() {
-            // [17, 74, 6, 39, 20, 85, 7]
-            //[82, 23, 66, 9, 99, 6, 2]
             var file = 'output.txt';
             var datamonth, bookname, current_price, current_qty, p_ideal, GR, current_sales, forecast_sales, year, month, cs, fs, selected_value;
             $.get(file, function(txt) {
                 //n lines read
                 var lines = txt.split('\n');
                 selected_value=$('select option:selected').text();
+                $("h3 small").html(selected_value);
+
                     var dataArr1 = [
                         []
                     ];
@@ -461,7 +431,6 @@
                                 cs = current_sales.toFixed(0);
                                 forecast_sales = current_sales * GR;
                                 fs = forecast_sales.toFixed(0);
-                                //console.log(year+" "+month+" "+cs+" "+ fs);
                                 dataArr1.push([gd(year, month, 1), cs]);
                                 dataArr2.push([gd(year, month, 1), fs]);
                                 fs_sum = fs_sum + forecast_sales;
@@ -469,17 +438,7 @@
                             }
                         }
 
-                        //console.log("Hello1");                     
-                        for (var a = 0, l = dataArr2.length; a < l; a++) {
-                            //console.log("Hello3");
-                            //console.log("Array1:"+dataArr1[a][1]);
-                            //console.log("Array2:"+dataArr2[a][1]);
-                        }
                         if (loop_var == lines.length - 2) {
-                            //console.log("Hello3");
-                            /*var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 2, 2), 74], [gd(2012, 3, 3), 6], [gd(2012, 4, 4), 39], [gd(2012, 5, 5), 20], [gd(2012, 6, 6), 85]];
-
-                            var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 2, 2), 23], [gd(2012, 3, 3), 66], [gd(2012, 4, 4), 9], [gd(2012, 5, 5), 119], [gd(2012, 6, 6), 6]];*/
                             fs = fs_sum.toFixed(0);
                             var comma = fs.length - 3;
                             var fs_str1 = fs.substring(0, comma);
@@ -539,7 +498,6 @@
                                 },
                                 tooltip: false
                             });
-                            //console.log("Program finished!");
 
                             function gd(year, month, day) {
                                 return new Date(year, month - 1, day).getTime();
@@ -548,7 +506,7 @@
                     }
                 $('#submit_book').click(function() {
                     selected_value = $('select option:selected').text();
-                    //alert(selected_value);
+                    $("h3 small").html(selected_value);
                     var dataArr1 = [
                         []
                     ];
@@ -579,7 +537,6 @@
                                 cs = current_sales.toFixed(0);
                                 forecast_sales = current_sales * GR;
                                 fs = forecast_sales.toFixed(0);
-                                //console.log(year+" "+month+" "+cs+" "+ fs);
                                 dataArr1.push([gd(year, month, 1), cs]);
                                 dataArr2.push([gd(year, month, 1), fs]);
                                 fs_sum = fs_sum + forecast_sales;
@@ -587,17 +544,8 @@
                             }
                         }
 
-                        //console.log("Hello1");                     
-                        for (var a = 0, l = dataArr2.length; a < l; a++) {
-                            //console.log("Hello3");
-                            //console.log("Array1:"+dataArr1[a][1]);
-                            //console.log("Array2:"+dataArr2[a][1]);
-                        }
                         if (loop_var == lines.length - 2) {
-                            //console.log("Hello3");
-                            /*var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 2, 2), 74], [gd(2012, 3, 3), 6], [gd(2012, 4, 4), 39], [gd(2012, 5, 5), 20], [gd(2012, 6, 6), 85]];
-
-                            var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 2, 2), 23], [gd(2012, 3, 3), 66], [gd(2012, 4, 4), 9], [gd(2012, 5, 5), 119], [gd(2012, 6, 6), 6]];*/
+                            
                             fs = fs_sum.toFixed(0);
                             var comma = fs.length - 3;
                             var fs_str1 = fs.substring(0, comma);
@@ -669,18 +617,10 @@
             });
             //console.log(year+" "+month+" "+cs+" "+ fs);
         });
-    </script>
-
-
-
-
-
-    
+    </script>    
     <script>
         NProgress.done();
     </script>
-    <!-- /datepicker -->
     <!-- /footer content -->
 </body>
-
 </html>
